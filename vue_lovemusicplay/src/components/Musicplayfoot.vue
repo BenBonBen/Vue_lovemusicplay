@@ -34,23 +34,26 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .MusicFoot {
   width: 100%;
-  height: 3rem;
-  // background-color: antiquewhite;
+  height: 4rem;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   .song_img {
     // width: 20%;
     display: flex;
-    flex-basis: 13%;
+    flex-basis: 15%;
     img {
       width: 100%;
       border-radius: 50%;
     }
   }
   .song_msg {
-    flex-basis: 65%;
+    flex-basis: 63%;
     padding-left: 3%;
     align-self: center;
   }

@@ -24,7 +24,7 @@
         <div class="recommend_num">{{recommendData.accessnum/1000}}万</div>
       </div>
     </div>
-    <Musicplayfoot class="MusicFoot" />
+    <Musicplayfoot />
   </div>
 </template>
 
@@ -63,7 +63,7 @@ export default {
   methods: {
     fetchData () {
       axios
-        .get("/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg")
+        .get("/qq/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg")
         .then(res => {
           return (this.recommendDatas = res.data.data);
         });
@@ -75,7 +75,7 @@ export default {
 <style lang="less">
 .page {
   width: 100%;
-  height: 100%;
+  // height: 100%;
   padding: 5%;
   .classification {
     display: flex;
