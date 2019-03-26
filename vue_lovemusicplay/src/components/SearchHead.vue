@@ -12,25 +12,34 @@
 import Vue from "vue";
 import { Icon } from "ant-design-vue";
 Vue.use(Icon);
+
 export default {
   name: "searchHead",
   data () {
     return {
-      PAGE: window.location.pathname
+      PAGE: window.location.pathname//获取当前页面url,放回一个'/',或者"/search"
     }
   },
   methods: {
     search () {
-      this.$refs.seachInput.blur();
-      const value = this.$refs.seachInput.value;
-      this.$emit('searchRes', value)//search()触发后，自动触发searchRes事件，该事件在父组件中
+      this.$refs.seachInput.blur();//让搜索框失去焦点
+      const value = this.$refs.seachInput.value;//获取搜索的值，付给一个变量
+      this.$emit('searchRes', value)//search()触发后，自动触发searchRes事件，该事件在父组件中,并发送value
     },
     switchPage (page) {
       this.$router.push(page);
-    },
+    },//点击了输入框都会调用这个切换页面的方法
     showCancelBtn () {
       if (this.PAGE === "/search") {
         return true
+      }
+    }//控制“X"符号显示的方法，如果当前页面在search页，则显示取消返回的符号
+  },
+  directives: {
+    focus: {
+      // 在search页的时候 自动聚焦input
+      inserted: function (el, { value }) {
+        value === "/search" && el.focus();
       }
     }
   }
