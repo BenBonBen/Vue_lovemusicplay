@@ -24,7 +24,7 @@
         <div class="recommend_num">{{recommendData.accessnum/1000}}万</div>
       </div>
     </div>
-    <Musicplayfoot />
+    <Musicplayfoot :musicdata='musicdetail' />
   </div>
 </template>
 
@@ -33,6 +33,7 @@
 import SearchHead from "@/components/SearchHead.vue";
 import Banner from "@/components/Banner.vue";
 import Musicplayfoot from "@/components/Musicplayfoot.vue";
+import eventBus from "@/eventBus.js";
 import axios from "axios";
 import Vue from "vue";
 
@@ -54,11 +55,16 @@ export default {
         { icon: "line-chart", name: "排行" },
         { icon: "rocket", name: "最新" },
         { icon: "customer-service", name: "电台" }
-      ]
+      ],
+      musicdetail: {
+      }//储存被选歌曲信息
     };
   },
   created: function () {
     this.fetchData();
+  },
+  mounted () {
+    this.getmsgData()
   },
   methods: {
     fetchData () {
@@ -67,6 +73,11 @@ export default {
         .then(res => {
           return (this.recommendDatas = res.data.data);
         });
+    },
+    getmsgData () {
+      eventBus.$on('msgtoHome', (message) => {   //这里最好用箭头函数，不然this指向有问题
+        this.musicdetail = message
+      })
     }
   }
 };
@@ -75,7 +86,7 @@ export default {
 <style lang="less">
 .page {
   width: 100%;
-  // height: 100%;
+  height: 100%;
   padding: 5%;
   .classification {
     display: flex;
@@ -117,6 +128,7 @@ export default {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-bottom: 17%;
     .recommendTitle {
       width: 100%;
       display: flex;

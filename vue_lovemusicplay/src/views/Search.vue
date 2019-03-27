@@ -14,13 +14,14 @@
         </div>
       </div>
     </div>
-    <Musicfoot class="MusicFoot" />
+    <Musicfoot class="MusicFoot" :musicdata='musicdetail' />
   </div>
 </template>
 
 <script>
 import SearchHead from "@/components/SearchHead.vue";
 import Musicfoot from "@/components/Musicplayfoot.vue";
+import eventBus from "../eventBus.js"
 import Vue from "vue";
 import { Icon } from "ant-design-vue";
 Vue.use(Icon);
@@ -31,12 +32,20 @@ export default {
   data () {
     return {
       searchDatas: [],//储存搜索结果
-      musicdetail: {} //储存被选歌曲信息
+      musicdetail: {
+        author_name: "张国荣",
+        song_name: "张国荣 - 倩女幽魂 (粤语)",
+        img: "http://imge.kugou.com/stdmusic/20160908/20160908170515309532.jpg",
+        play_url: "http://fs.w.kugou.com/201903271224/a1fb767cea0e3742bc8e6f3a211185ba/G014/M05/0F/18/roYBAFUYMiiAVqhwADREFn04rIA343.mp3"
+      }//储存被选歌曲信息
     };
   },
   components: {
     SearchHead,
     Musicfoot
+  },
+  mounted () {
+    this.getmsgData()
   },
   methods: {
     // 获取搜索结果
@@ -97,7 +106,11 @@ export default {
         }
       }).then(req => {
         this.musicdetail = req.data.data;
+        eventBus.$emit('msgtoHome', this.musicdetail)
       })
+    },
+    getmsgData () {
+
     }
   }
 };
