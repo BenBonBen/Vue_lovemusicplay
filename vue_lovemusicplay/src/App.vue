@@ -1,8 +1,37 @@
 <template>
   <div id="app">
     <router-view />
+    <Musicplayfoot :musicdata='musicdetail' />
   </div>
 </template>
+
+<script>
+import Musicplayfoot from "./components/Musicplayfoot.vue";
+import eventBus from "./eventBus"
+
+export default {
+  data () {
+    return {
+      musicdetail: this.getmsgData() || {
+        author_name: "张国荣",
+        song_name: "张国荣 - 倩女幽魂 (粤语)",
+        img: "http://imge.kugou.com/stdmusic/20160908/20160908170515309532.jpg",
+        play_url: "http://fs.w.kugou.com/201903271224/a1fb767cea0e3742bc8e6f3a211185ba/G014/M05/0F/18/roYBAFUYMiiAVqhwADREFn04rIA343.mp3"
+      },
+    }
+  },
+  components: {
+    Musicplayfoot
+  },
+  methods: {
+    getmsgData () {
+      eventBus.$on('footerData', (message) => {   //这里最好用箭头函数，不然this指向有问题
+        return this.musicdetail = message
+      })
+    },
+  }
+}
+</script>
 
 <style>
 /*公共样式--开始*/

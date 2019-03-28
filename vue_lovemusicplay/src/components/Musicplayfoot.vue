@@ -8,10 +8,10 @@
       <div class="song_name">{{musicdata.author_name}}</div>
     </div>
     <div class="song_bar">
-      <a-icon type="play-circle" class="playBtn" />
+      <a-icon :type="istrue?'play-circle':'pause-circle'" class="playBtn" @click="play" />
       <a-icon type="bars" class="playList" />
     </div>
-    <audio id="music" :src="musicdata.play_url"></audio>
+    <audio id="music" :src="musicdata.play_url" autoplay="autoplay"></audio>
   </div>
 </template>
 
@@ -24,14 +24,36 @@ export default {
   props: ['musicdata'],
   data () {
     return {
-      PAGE: window.location.pathname
+      PAGE: window.location.pathname,
+      isPlaying: false, //控制歌曲的播放暂停
+      istrue: ''
     }
   },
   methods: {
     switchPage (page) {
       this.$router.push(page)
+    },
+    play () {
+      var audio = document.querySelector('#music');
+      if (!this.isPlaying) {
+        audio.play();
+        this.isPlaying = true;
+        this.istrue = false;
+      } else {
+        audio.pause();
+        this.isPlaying = false;
+        this.istrue = true;
+      }
+    },
+    watch: {
+      istrue: function () {
+        var audio = document.querySelector('#music');
+        if (audio.currentTime > 0) {
+          this.istrue = false
+        }
+      }
     }
-  }
+  },
 }
 </script>
 
@@ -57,7 +79,6 @@ export default {
     flex-basis: 63%;
     padding-left: 3%;
     align-self: center;
-    overflow: hidden;
   }
   .song_bar {
     display: flex;

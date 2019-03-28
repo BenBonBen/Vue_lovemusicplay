@@ -24,7 +24,6 @@
         <div class="recommend_num">{{recommendData.accessnum/1000}}万</div>
       </div>
     </div>
-    <Musicplayfoot :musicdata='musicdetail' />
   </div>
 </template>
 
@@ -32,8 +31,6 @@
 // @ is an alias to /src
 import SearchHead from "@/components/SearchHead.vue";
 import Banner from "@/components/Banner.vue";
-import Musicplayfoot from "@/components/Musicplayfoot.vue";
-import eventBus from "@/eventBus.js";
 import axios from "axios";
 import Vue from "vue";
 
@@ -45,7 +42,6 @@ export default {
   components: {
     SearchHead,
     Banner,
-    Musicplayfoot
   },
   data () {
     return {
@@ -63,9 +59,6 @@ export default {
   created: function () {
     this.fetchData();
   },
-  mounted () {
-    this.getmsgData()
-  },
   methods: {
     fetchData () {
       axios
@@ -73,11 +66,6 @@ export default {
         .then(res => {
           return (this.recommendDatas = res.data.data);
         });
-    },
-    getmsgData () {
-      eventBus.$on('msgtoHome', (message) => {   //这里最好用箭头函数，不然this指向有问题
-        this.musicdetail = message
-      })
     }
   }
 };
